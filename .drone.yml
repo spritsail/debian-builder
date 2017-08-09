@@ -1,0 +1,31 @@
+services:
+  docker:
+    image: docker:dind
+    privileged: true
+
+pipeline:
+  build:
+    image: docker
+    environment:
+      - DOCKER_HOST=tcp://docker:2375
+    commands:
+      - docker build -t devbuild .
+
+  test:
+    image: docker
+    environment:
+      - DOCKER_HOST=tcp://docker:2375
+    commands:
+      - docker run --rm devbuild env
+      - docker run --rm devbuild sh -c 'for b in tar xz bzip2 gawk gcc; do sh -eaxc "$b --version"; done'
+
+  publish:
+    image: docker
+    secrets: [ DOCKER_USER, DOCKER_PASS ]
+    environment:
+      - DOCKER_HOST=tcp://docker:2375
+    commands:
+      - docker login -u $DOCKER_USER -p $DOCKER_PASS
+      - docker tag devbuild frebib/debian-builder:latest
+      - docker tag devbuild frebib/debian-builder:stretch
+      - docker push frebib/debian-builder
