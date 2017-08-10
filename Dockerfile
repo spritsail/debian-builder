@@ -10,4 +10,7 @@ RUN apt-get update  -qy && \
         build-essential linux-libc-dev \
         curl gawk tar bzip2 ncompress xz-utils
 
+# Override shell for bash-y debugging goodness
+SHELL ["/bin/bash", "-eaxc"]
+
 WORKDIR /tmp
