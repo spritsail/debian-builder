@@ -12,6 +12,6 @@ RUN apt-get update  -qy && \
         git curl gawk tar bzip2 ncompress xz-utils
 
 # Override shell for bash-y debugging goodness
-SHELL ["/bin/bash", "-eaxc"]
+SHELL ["/bin/bash", "-exc"]
 
 WORKDIR /tmp
