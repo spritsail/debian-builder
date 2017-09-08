@@ -2,8 +2,9 @@ FROM debian:stretch-slim
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-ENV CFLAGS="-Os -pipe -fstack-protector-strong"
-ENV LDFLAGS="-Wl,-O1,--sort-common -Wl,-s"
+ENV CFLAGS="-Os -pipe -fstack-protector-strong" \
+    CXXFLAGS="-Os -pipe -fstack-protector-strong" \
+    LDFLAGS="-Wl,-O1,--sort-common -Wl,-s"
 
 RUN apt-get update  -qy && \
     apt-get install -qy \
