@@ -1,31 +1,35 @@
-services:
-  docker:
-    image: docker:dind
-    privileged: true
-
 pipeline:
   build:
     image: docker
-    environment:
-      - DOCKER_HOST=tcp://docker:2375
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
     commands:
-      - docker build -t devbuild .
+      - echo "Building frebib/debian-builder:$DEBIAN_TAG"
+      - docker build -t frebib/debian-builder:$DEBIAN_TAG .
 
   test:
     image: docker
-    environment:
-      - DOCKER_HOST=tcp://docker:2375
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
     commands:
-      - docker run --rm devbuild env
-      - docker run --rm devbuild sh -c 'for b in tar xz bzip2 gawk gcc; do sh -eaxc "$b --version"; done'
+      - docker run --rm frebib/debian-builder:$DEBIAN_TAG 
+            sh -c 'env; for b in tar xz bzip2 gawk gcc; do sh -eaxc "$b --version"; done'
 
   publish:
     image: docker
     secrets: [ DOCKER_USER, DOCKER_PASS ]
-    environment:
-      - DOCKER_HOST=tcp://docker:2375
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    when:
+      event: [ push, tag, deployment ]
     commands:
       - docker login -u $DOCKER_USER -p $DOCKER_PASS
-      - docker tag devbuild frebib/debian-builder:latest
-      - docker tag devbuild frebib/debian-builder:stretch
+      - if [ $DEBIAN_TAG = 'stretch' ]; then
+          docker tag frebib/debian-builder:$DEBIAN_TAG frebib/debian-builder:latest;
+        fi
       - docker push frebib/debian-builder
+
+matrix:
+  DEBIAN_TAG:
+    - jessie
+    - stretch
