@@ -28,6 +28,10 @@ pipeline:
           docker tag frebib/debian-builder:$DEBIAN_TAG frebib/debian-builder:latest;
         fi
       - docker push frebib/debian-builder
+      - docker rmi frebib/debian-builder:$DEBIAN_TAG
+      - if [ $DEBIAN_TAG = 'stretch-slim' ]; then
+          docker rmi frebib/debian-builder:latest;
+        fi
 
 matrix:
   DEBIAN_TAG:
