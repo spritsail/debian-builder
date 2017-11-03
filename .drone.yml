@@ -5,7 +5,7 @@ pipeline:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
       - echo "Building frebib/debian-builder:$DEBIAN_TAG"
-      - docker build -t frebib/debian-builder:$DEBIAN_TAG .
+      - docker build --pull --no-cache -t frebib/debian-builder:$DEBIAN_TAG .
 
   test:
     image: docker
