@@ -1,4 +1,5 @@
-FROM debian:stretch-slim
+ARG DEBIAN_TAG
+FROM debian:$DEBIAN_TAG
 
 ENV DEBIAN_FRONTEND=noninteractive
 

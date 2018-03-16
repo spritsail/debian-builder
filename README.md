@@ -1,12 +1,20 @@
-[hub]: https://hub.docker.com/r/frebib/debian-builder
+[hub]: https://hub.docker.com/r/spritsail/debian-builder
+[git]: https://github.com/spritsail/debian-builder
+[drone]: https://drone.spritsail.io/spritsail/debian-builder
 
-# [frebib/debian-builder][hub] - Build multi-stage images easier
-[![](https://images.microbadger.com/badges/image/frebib/debian-builder.svg)](https://microbadger.com/images/frebib/debian-builder) [![](https://images.microbadger.com/badges/version/frebib/debian-builder.svg)][hub] [![Docker Stars](https://img.shields.io/docker/stars/frebib/debian-builder.svg)][hub] [![Docker Pulls](https://img.shields.io/docker/pulls/frebib/debian-builder.svg)][hub] [![Build Status](https://drone.adam-ant.co.uk/api/badges/frebib/docker-debian-builder/status.svg)](https://drone.adam-ant.co.uk/frebib/docker-debian-builder)
+# [spritsail/debian-builder][hub]
+
+[![](https://images.microbadger.com/badges/image/spritsail/debian-builder.svg)](https://microbadger.com/images/spritsail/debian-builder)
+[![Latest Version](https://images.microbadger.com/badges/version/spritsail/debian-builder.svg)][hub]
+[![Git Commit](https://images.microbadger.com/badges/commit/spritsail/debian-builder.svg)][git]
+[![Docker Pulls](https://img.shields.io/docker/pulls/spritsail/debian-builder.svg)][hub]
+[![Docker Stars](https://img.shields.io/docker/stars/spritsail/debian-builder.svg)][hub]
+[![Build Status](https://drone.spritsail.io/api/badges/spritsail/debian-builder/status.svg)][drone]
 
 ## Example usage
 
 ```Dockerfile
-FROM frebib/debian-builder as builder
+FROM spritsail/debian-builder as builder
 
 ARG BUSYBOX_VER=1.27.1
 
