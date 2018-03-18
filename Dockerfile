@@ -14,7 +14,7 @@ RUN apt-get update  -qy && \
     apt-get install -qy \
         build-essential linux-libc-dev \
         autoconf automake libtool pkg-config \
-        git curl gawk tar bzip2 ncompress xz-utils
+        git curl gawk tar bzip2 ncompress xz-utils tree
 
 # Override shell for bash-y debugging goodness
 SHELL ["/bin/bash", "-exc"]
