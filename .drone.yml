@@ -4,7 +4,7 @@ pipeline:
     volumes: [ '/var/run/docker.sock:/var/run/docker.sock' ]
     repo: debian-builder-dev
     build_args:
-      - DEBIAN_TAG=${DEBIAN_TAG}
+      - DEBIAN_TAG=${DEBIAN_TAG%%,*}
 
   test:
     image: docker
@@ -24,19 +24,16 @@ pipeline:
       - ${DEBIAN_TAG}
 
   notify:
-    image: appleboy/drone-telegram
+    image: spritsail/notify
     when: { status: [ success, failure ] }
-    secrets: [ telegram_token, telegram_to ]
-    message: |
-      *{{repo.owner}}/{{repo.name}} [{{commit.branch}}]*: Build #{{build.number}}: *{{uppercase build.status}}*
-      {{build.link}}
+    secrets: [ webhook_url, notify_token ]
+    tag: ${DEBIAN_TAG%%,*}
 
 matrix:
   DEBIAN_TAG:
     - jessie
     - jessie-slim
     - stretch
-    - stretch-slim
+    - stretch-slim,latest
     - buster
     - buster-slim
-    - latest
