@@ -3,8 +3,8 @@ FROM debian:$DEBIAN_TAG
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-ENV CFLAGS="-Os -pipe -fstack-protector-strong -D_GNU_SOURCE=1" \
-    CXXFLAGS="-Os -pipe -fstack-protector-strong -D_GNU_SOURCE=1" \
+ENV CFLAGS="-Os -pipe -fstack-protector-strong -D_FORTIFY_SOURCE=2 -D_GNU_SOURCE=1" \
+    CXXFLAGS="-Os -pipe -fstack-protector-strong -D_FORTIFY_SOURCE=2 -D_GNU_SOURCE=1" \
     LDFLAGS="-Wl,-O1,--sort-common -Wl,-s"
 
 # Create a default output directory
