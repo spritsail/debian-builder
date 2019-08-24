@@ -1,27 +1,22 @@
 pipeline:
   build:
     image: spritsail/docker-build
-    volumes: [ '/var/run/docker.sock:/var/run/docker.sock' ]
     repo: debian-builder-dev
     build_args:
       - DEBIAN_TAG=${DEBIAN_TAG%%,*}
 
   test:
-    image: docker
-    volumes: [ '/var/run/docker.sock:/var/run/docker.sock' ]
-    commands:
-      - docker run --rm debian-builder-dev
-            sh -c 'for b in tar xz bzip2 gawk gcc; do sh -eaxc "$b --version"; done'
+    image: spritsail/docker-test
+    repo: debian-builder-dev
+    run: for b in tar xz bzip2 gawk gcc; do $b --version; done
 
   publish:
     image: spritsail/docker-publish
-    when: { branch: [ master ], event: [ push, tag, deployment ] }
-    volumes: [ '/var/run/docker.sock:/var/run/docker.sock' ]
-    secrets: [ docker_username, docker_password, microbadger_token ]
+    when: { branch: [ master ], event: [ push, tag ] }
+    secrets: [ docker_username, docker_password ]
     from: debian-builder-dev
     repo: spritsail/debian-builder
-    tags:
-      - ${DEBIAN_TAG}
+    tags: ${DEBIAN_TAG}
 
   notify:
     image: spritsail/notify
@@ -31,9 +26,9 @@ pipeline:
 
 matrix:
   DEBIAN_TAG:
-    - jessie
-    - jessie-slim
     - stretch
     - stretch-slim,latest
     - buster
     - buster-slim
+    - bullseye
+    - bullseye-slim
