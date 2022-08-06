@@ -62,7 +62,7 @@ def step(ver, arch, key):
         },
         "when": {
           "branch": branches,
-          "event": ["push"],
+          "event": ["push", "cron"],
         },
       },
     ]
@@ -93,7 +93,7 @@ def publish(ver, depends, tags=[]):
         },
         "when": {
           "branch": branches,
-          "event": ["push"],
+          "event": ["push", "cron"],
         },
       },
     ]
