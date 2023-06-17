@@ -2,8 +2,8 @@ repo = "spritsail/debian-builder"
 archs = ["amd64", "arm64"]
 branches = ["master"]
 versions = {
-  "bullseye-slim": ["latest", "stable"],
-  "bookworm-slim": ["testing"],
+  "bookworm-slim": ["latest", "stable"],
+  "trixie-slim": ["testing"],
   "sid-slim": ["unstable"],
 }
 
